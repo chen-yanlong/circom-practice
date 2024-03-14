@@ -10,10 +10,11 @@ directory=$(find .. -maxdepth 1 -type d -name "$pattern")
 
 if [ -n "$directory" ]; then
     # Change directory
-    cd "$directory/circuits" || exit
+    cd "$directory/circuits" 
     echo "found file: $(basename "$directory")"
 else
     echo "Directory not found for number: $number"
+    exit
 fi
 
 name="${directory#*-}"
@@ -24,6 +25,7 @@ sym="$name.sym"
 wasm="$name.wasm"
 witness="$name.witness"
 zkey=""$name"_0001.zkey"
+ptau="pot12_final.ptau"
 
 main() {
     compile_circom
@@ -58,11 +60,12 @@ compute_witness() {
 }
 
 p_tau() {
-    echo "powers of tau ceromony executing..."
-    snarkjs powersoftau new bn128 12 pot12_0000.ptau -v
-    snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="First contribution" -v
-    snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau -v
-    snarkjs groth16 setup $r1cs pot12_final.ptau "$name"_0000.zkey
+    # echo "powers of tau ceromony executing..."
+    # snarkjs powersoftau new bn128 12 pot12_0000.ptau -v
+    # snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="First contribution" -v
+    # snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau -v
+    
+    snarkjs groth16 setup $r1cs ../../p_tau/$ptau "$name"_0000.zkey
     snarkjs zkey contribute "$name"_0000.zkey "$name"_0001.zkey --name="1st Contributor Name" -v
     snarkjs zkey export verificationkey "$name"_0001.zkey verification_key.json
 }
