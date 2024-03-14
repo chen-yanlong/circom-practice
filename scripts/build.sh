@@ -56,7 +56,9 @@ compute_witness() {
     else
         echo "witness generated: $witness"
     fi
+    snarkjs wtns export json $witness
     mv $witness ../
+    
 }
 
 p_tau() {
@@ -64,6 +66,7 @@ p_tau() {
     # snarkjs powersoftau new bn128 12 pot12_0000.ptau -v
     # snarkjs powersoftau contribute pot12_0000.ptau pot12_0001.ptau --name="First contribution" -v
     # snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau -v
+    # snarkjs groth16 setup $r1cs $ptau "$name"_0000.zkey
     
     snarkjs groth16 setup $r1cs ../../p_tau/$ptau "$name"_0000.zkey
     snarkjs zkey contribute "$name"_0000.zkey "$name"_0001.zkey --name="1st Contributor Name" -v
