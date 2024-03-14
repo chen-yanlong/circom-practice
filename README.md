@@ -1,7 +1,7 @@
 # circom-practice
 this is a set of practice of circom
 
-write codes in files like <number>-<name_you_like>
+write codes in files like `0-muiltiply`
 and write your circom file and input.json in `./circuits`, see `0-muiltiply`
 
 please name the circom file as you named the file
