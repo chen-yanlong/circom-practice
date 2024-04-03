@@ -11,4 +11,5 @@ template PublicInputs () {
     d <== e * c;
 }
 
+// a and b are public, c is private
 component main {public [a,b]}= PublicInputs();
